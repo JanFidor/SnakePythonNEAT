@@ -18,7 +18,7 @@ class SnakeUI:
         self.game_speed = game_speed
 
     def display_title(self):
-        pygame.display.set_caption('Snake Game, please work this time around')
+        pygame.display.set_caption('Snake Game')
 
     def draw_score(self):
         value = self.font.render("Your Score: " + str(self.game._snake.length - 1), True, constants.yellow)
@@ -30,7 +30,7 @@ class SnakeUI:
             pygame.draw.rect(self.dis, constants.black, 
             [pos.x * self.block_size, (pos.y) * self.block_size, self.block_size, self.block_size])
     
-    def gameLoop(self):
+    def game_loop_go_brrrt(self):
         
         while not self.game.finished:
             pygame.display.update()
@@ -43,11 +43,6 @@ class SnakeUI:
                     print(self.game._snake.head().x, self.game._snake.head().y)
 
             self.interaction_interface(self.game, self.net)
-            # print("food: ", self.game.new_food_distances(), "collisions: ", self.game.new_coll_distances(), '\n')
-
-            # print(self.game._snake.head().x, self.game._snake.head().y)
-        
-            # self.game.move_snake()
 
             food_x = self.game._fruit.pos.x * self.block_size
             food_y = self.game._fruit.pos.y * self.block_size

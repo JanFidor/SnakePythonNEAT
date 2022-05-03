@@ -48,6 +48,8 @@ class SnakeGame:
     
     def manhattan_to_collision(self, direction):
         start = self._snake.head() + direction
+        if self.is_colliding(start):
+            return 0
         queue = [start]
         visited = set()
         visited.add(start)
@@ -105,35 +107,38 @@ class SnakeGame:
     
     def new_coll_distances(self):
         return (
-            self.is_colliding(self._snake.head() + rotated_left(self._snake.direction)) * self.is_safe(rotated_left(self._snake.direction)),
-            self.is_colliding(self._snake.head() + self._snake.direction) * self.is_safe(self._snake.direction) ,
-            self.is_colliding(self._snake.head() + rotated_right(self._snake.direction)) * self.is_safe(rotated_right(self._snake.direction))
+            1 - self.is_colliding(self._snake.head() + rotated_left(self._snake.direction)),
+            1 - self.is_colliding(self._snake.head() + self._snake.direction),
+            1 - self.is_colliding(self._snake.head() + rotated_right(self._snake.direction))
         )
 
-    """
-    return (
-            self.is_colliding(self._snake.head() + rotated_left(self._snake.direction)) * self.is_safe(rotated_left(self._snake.direction)),
-            self.is_colliding(self._snake.head() + self._snake.direction) * self.is_safe(self._snake.direction) ,
-            self.is_colliding(self._snake.head() + rotated_right(self._snake.direction)) * self.is_safe(rotated_right(self._snake.direction))
-        )
-    """
+    def extra_coll_distances(self):
+        return (
+                self.is_safe(rotated_left(self._snake.direction)),
+                self.is_safe(self._snake.direction) ,
+                self.is_safe(rotated_right(self._snake.direction))
+            )
+    
     
 
     def is_safe(sim, direction):
         start = sim._snake.head() + direction
         queue = [(start, direction)]
         visited = set()
-        visited.add(start)
 
 
         while queue:
-            vec, dir = queue.pop(0)
-            visited.add(vec)
+            pos, dir = queue.pop(0)
+            visited.add(pos)
             possible_moves = (rotated_left(dir), dir, rotated_right(dir))
             
+            if sim.is_colliding(pos): continue
+            
             for move in (possible_moves):
-                new_pos = vec + move
+                new_pos = pos + move
                 if new_pos == sim._fruit.pos:
+                    return 1
+                if len(visited) > sim.width * sim.height // 4:
                     return 1
                 if not sim.is_colliding(new_pos) and new_pos not in visited:
                     queue.append((new_pos, move))

@@ -4,8 +4,8 @@ from snake_game import SnakeGame
 from vector import rotated_left, rotated_right
 
 def ai_interface(sim, net):
-    input = sim.new_coll_distances() + sim.new_food_distances()
-    print(input)
+    input = sim.extra_coll_distances() + sim.new_food_distances()
+    # print(sim.new_coll_distances(), sim.extra_coll_distances())
     action = net.activate(input)
     sim.actuator(action)
     sim.move_snake()

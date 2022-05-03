@@ -10,12 +10,12 @@ import pygame
 
 os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
-generations = 10
+generations = 25
 
 # Use the NN network phenotype and the discrete actuator force function.
 def eval_genome(genome, config):
     # IMPORTANT
-    runs_per_net = 5
+    runs_per_net = 3
     board_width = 15
     board_height = 15
     moves_limit = 1000
@@ -30,12 +30,6 @@ def eval_genome(genome, config):
         
         # Run the given simulation for up to num_steps time steps.
         while not sim.finished and moves_made <= moves_limit:
-            # print(sim._snake.head().x, sim._snake.head().y, " time passed: ", moves_made)
-            # Get manhattan distances to obstacles 90* arcs (left, front, right)
-            # distances = sim.get_collision_distances()
-            # angle_to_food = sim.get_angle_to_food()
-            # distance_to_food = sim.get_distance_to_food()
-
             input = sim.new_coll_distances() + sim.new_food_distances()
 
             action = net.activate(input)
@@ -47,7 +41,6 @@ def eval_genome(genome, config):
         # Evaluate genome fitness
         fitness = sim.get_fitness()
         fitnesses.append(fitness)
-
     # The genome's fitness is its worst performance across all runs (if multiple runs) or simply its single-run performance (if only 1 run)
     return min(fitnesses)
 
@@ -82,15 +75,15 @@ def main():
 
     winning_net = neat.nn.FeedForwardNetwork.create(winner, config)
     
-    pygame.init()
-    sim = SnakeUI(15, 15, 20, ai_interface, 30, winning_net)
+    # pygame.init()
+    # sim = SnakeUI(15, 15, 20, ai_interface, 30, winning_net)
 
-    ########################
-    # Simulate the performance of the loaded network
-    ########################    
-    sim.gameLoop()
+    # ########################
+    # # Simulate the performance of the loaded network
+    # ########################    
+    # sim.gameLoop()
 
-    print(sim.game._snake.length)
+    # print(sim.game._snake.length)
     
 
 
