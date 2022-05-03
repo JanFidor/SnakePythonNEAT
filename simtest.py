@@ -14,7 +14,7 @@ import visualize
 os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
 # load the winner
-with open('./winner-weird','rb') as f:
+with open('./winner','rb') as f:
     c = pickle.load(f)
 
 print('Loaded genome:')
@@ -45,5 +45,5 @@ sim = SnakeUI(15, 15, 20, ai_interface, 50, net)
 sim.game_loop_go_brrrt()
 
 
-visualize.draw_net(config, c, view=True, node_names=node_names,filename="winner-enabled-pruned-weird.gv", show_disabled=False, prune_unused=True)
+visualize.draw_net(config, c, view=True, node_names=node_names,filename="winner-enabled-pruned.gv", show_disabled=False, prune_unused=True)
 print("aaaaaaaa")
