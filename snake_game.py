@@ -42,62 +42,10 @@ class SnakeGame:
             not 0 <= vector.y < self.height
             ))
 
-    
-    def manhattan_to_collision(self, direction):
-        start = self._snake.head() + direction
-        if self.is_colliding(start):
-            return 0
-        queue = [start]
-        visited = set()
-        visited.add(start)
-        possible_moves = (rotated_left(direction), direction, rotated_right(direction))
-        distance = self.width + self.height
-
-
-        while True:
-            vec = queue.pop(0)
-            visited.add(vec)
-
-            if self.is_colliding(vec):
-                return manhattan_distance(vec, self._snake.head())
-            
-            for move in (possible_moves):
-                new_position = vec + move
-                if self.manhattan_constraint_check(new_position, direction) and \
-                    new_position not in visited and \
-                    manhattan_distance(new_position, self._snake.head()) < distance:
-                    queue.append(new_position)
-    
-    def manhattan_constraint_check(self, pos, direction):
-        vec = pos - self._snake.head()
-        if direction.x == 0:
-            return -abs(vec.y) <= vec.x <= abs(vec.y)
-        elif direction.y == 0:
-            return -abs(vec.x) <= vec.y <= abs(vec.x)
-
-        raise Exception("shit went wild")
-    
-    def get_collision_distances(self):
-        return (
-            self.manhattan_to_collision(rotated_left(self._snake.direction)),
-            self.manhattan_to_collision(self._snake.direction),
-            self.manhattan_to_collision(rotated_right(self._snake.direction))
-        )
-
-    def man_straight_col(self, direction):
+    def straight_line_to_food(self, direction):
         new_pos = copy(self._snake.head())
-        distance = 0
         while not self.is_colliding(new_pos):
             new_pos += direction
-            distance += 1
-        return distance
-
-    def man_straight_food(self, direction):
-        new_pos = copy(self._snake.head())
-        distance = 0
-        while not self.is_colliding(new_pos):
-            new_pos += direction
-            distance += 1
             if new_pos == self._fruit.pos:
                 return 1
         return 0
@@ -143,9 +91,9 @@ class SnakeGame:
 
     def new_food_distances(self):
         return (
-            self.man_straight_food(rotated_left(self._snake.direction)),
-            self.man_straight_food(self._snake.direction),
-            self.man_straight_food(rotated_right(self._snake.direction))
+            self.straight_line_to_food(rotated_left(self._snake.direction)),
+            self.straight_line_to_food(self._snake.direction),
+            self.straight_line_to_food(rotated_right(self._snake.direction))
         )
 
     def get_angle_to_food(self):
