@@ -37,7 +37,7 @@ node_names = {
 
 net = neat.nn.FeedForwardNetwork.create(c, config)
 pygame.init()
-sim = SnakeUI(15, 15, 20, ai_interface, 50, net)
+sim = SnakeUI(10, 10, 20, ai_interface, 50, net)
 
 ########################
 # Simulate the performance of the loaded network

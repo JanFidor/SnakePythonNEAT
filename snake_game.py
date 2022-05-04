@@ -1,10 +1,7 @@
 import math
-from turtle import distance
 from snake_model import Snake
 from snake_fruit import Fruit
 import itertools as iter
-
-
 from vector import Vector, manhattan_distance, rotated_left, rotated_right, copy
 
 class SnakeGame:

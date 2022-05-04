@@ -1,6 +1,4 @@
-from turtle import distance
 import pygame
-from snake_game import SnakeGame
 from vector import rotated_left, rotated_right
 
 def ai_interface(sim, net):

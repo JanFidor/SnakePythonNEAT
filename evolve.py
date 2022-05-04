@@ -6,18 +6,17 @@ from snake_interfaces import ai_interface
 from snake_pygame import SnakeUI
 from vector import manhattan_distance
 import visualize
-import pygame
 
 os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
-generations = 25
+generations = 15
 
 # Use the NN network phenotype and the discrete actuator force function.
 def eval_genome(genome, config):
     # IMPORTANT
     runs_per_net = 3
-    board_width = 15
-    board_height = 15
+    board_width = 10
+    board_height = 10
     moves_limit = 1000
 
 
@@ -30,7 +29,7 @@ def eval_genome(genome, config):
         
         # Run the given simulation for up to num_steps time steps.
         while not sim.finished and moves_made <= moves_limit:
-            input = sim.new_coll_distances() + sim.new_food_distances()
+            input = sim.extra_coll_distances() + sim.new_food_distances()
 
             action = net.activate(input)
             
