@@ -26,8 +26,8 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,neat.DefaultSp
 
 
 node_names = {
-        -1: 'collision_distance_left', -2: 'collision_distance_forward', -3: 'collision_distance_right', 
-        -4: 'food_distance_left', -5: 'food_distance_forward', -6: 'food_distance_right', 
+        -1: 'is_left_safe', -2: 'is_front_safe', -3: 'is_right_safe', 
+        -4: 'food_visible_left', -5: 'food_visible_forward', -6: 'food_visible_right', 
         0: 'move_left', 1: 'move_forward', 2: 'move_right'}
 
 
@@ -37,7 +37,7 @@ node_names = {
 
 net = neat.nn.FeedForwardNetwork.create(c, config)
 pygame.init()
-sim = SnakeUI(10, 10, 20, ai_interface, 50, net)
+sim = SnakeUI(10, 10, 20, ai_interface, 20, net)
 
 ########################
 # Simulate the performance of the loaded network
@@ -46,4 +46,4 @@ sim.game_loop_go_brrrt()
 
 
 visualize.draw_net(config, c, view=True, node_names=node_names,filename="winner-enabled-pruned.gv", show_disabled=False, prune_unused=True)
-print("aaaaaaaa")
+print(sim.game.get_fitness())

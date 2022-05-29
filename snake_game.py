@@ -50,14 +50,14 @@ class SnakeGame:
                 return 1
         return 0
     
-    def new_coll_distances(self):
+    def are_moves_valid(self):
         return (
             1 - self.is_colliding(self._snake.head() + rotated_left(self._snake.direction)),
             1 - self.is_colliding(self._snake.head() + self._snake.direction),
             1 - self.is_colliding(self._snake.head() + rotated_right(self._snake.direction))
         )
 
-    def extra_coll_distances(self):
+    def are_moves_safe_bfs(self):
         return (
                 self.is_safe(rotated_left(self._snake.direction)),
                 self.is_safe(self._snake.direction) ,
@@ -95,16 +95,6 @@ class SnakeGame:
             self.straight_line_to_food(self._snake.direction),
             self.straight_line_to_food(rotated_right(self._snake.direction))
         )
-
-    def get_angle_to_food(self):
-        fruit_pos = self._fruit.pos
-        head = self._snake.head()
-        return math.atan2(-fruit_pos.y + head.y, -fruit_pos.x + head.x)
-
-    def get_distance_to_food(self):
-        fruit_pos = self._fruit.pos
-        head = self._snake.head()
-        return manhattan_distance(fruit_pos, head)
 
     def actuator(self, weights):
         best_action_index = max(enumerate(weights), key=lambda x: x[1])[0]

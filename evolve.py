@@ -29,7 +29,7 @@ def eval_genome(genome, config):
         
         # Run the given simulation for up to num_steps time steps.
         while not sim.finished and moves_made <= moves_limit:
-            input = sim.extra_coll_distances() + sim.new_food_distances()
+            input = sim.are_moves_safe_bfs() + sim.new_food_distances()
 
             action = net.activate(input)
             

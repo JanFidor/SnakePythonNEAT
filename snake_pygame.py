@@ -21,7 +21,7 @@ class SnakeUI:
         pygame.display.set_caption('Snake Game')
 
     def draw_score(self):
-        value = self.font.render("Your Score: " + str(self.game._snake.length - 1), True, constants.yellow)
+        value = self.font.render("Score: " + str(self.game._snake.length - 1), True, constants.red)
         self.dis.blit(value, [0, 0])
     
     
